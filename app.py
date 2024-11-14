@@ -4,20 +4,23 @@ import json
 def load_file():
     
     file_data = st.file_uploader('upload JSON file', type='json')
-    if file_data is not None:
+    if file_data:
         data = json.load(file_data)
         return data
 
 def transaction_extract(data):
     
-    trans_data = []
-    for bank, bank_data in data.items():
-    
-        transactions = bank_data.get('transactions', [])
-        trans_data.extend(transactions)
-        st.success('Extracted successfully')
-    
-    return trans_data
+    bank = list(data.keys())[0]
+    extracted_data = {
+        bank:{
+            "account":data[bank]['account'],
+            "transactions":data[bank]['transactions']
+        }
+            }
+    st.success('Extracted successfully')
+    json_text = json.dumps(extracted_data, indent=4)
+    st.text_area('Extracted json data', json_text, height=500)
+    return extracted_data
 
 file_data = load_file()
 
@@ -35,4 +38,4 @@ if file_data:
                 file_name="transaction_file.json",
                 mime="application/json"
             )
-            
+
