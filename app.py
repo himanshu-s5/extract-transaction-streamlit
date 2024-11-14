@@ -1,7 +1,7 @@
 import streamlit as st
 import json 
 
-st.header("Extract Transaction from json file")
+st.subheader("Extract Transaction from json file")
 def load_file():
     
     file_data = st.file_uploader('upload JSON file', type='json')
